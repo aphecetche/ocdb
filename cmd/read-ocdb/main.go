@@ -6,6 +6,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 
@@ -32,6 +33,23 @@ func main() {
 		}
 
 		v := o.(*ocdb.Entry)
-		v.Display(os.Stdout)
+
+		dumpEntry(v)
+	}
+}
+
+func dumpEntry(v *ocdb.Entry) {
+
+	obj := v.Object()
+	bimap := obj.(*ocdb.AliMUON2DMap)
+
+	manus := bimap.GetManusForDE(706)
+	// manus := bimap.GetManus()
+
+	for _, m := range manus {
+		o := bimap.GetObject(m.DeID, m.ID)
+		fmt.Printf("DE %4d MANU %4d", m.DeID, m.ID)
+		c := o.(*ocdb.AliMUONCalibParamND)
+		c.Dump(os.Stdout)
 	}
 }
