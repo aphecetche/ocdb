@@ -118,7 +118,7 @@ func (o *AliMUON2DMap) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(o.Class())
 
 	if err := o.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -162,7 +162,7 @@ func (o *AliMUONVStore) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(o.Class())
 
 	if err := o.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -220,7 +220,7 @@ func (o *AliMpExMap) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(o.Class())
 
 	if err := o.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -329,7 +329,7 @@ func (o *AliMUONCalibParamND) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(o.Class())
 
 	if err := o.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -373,7 +373,7 @@ func (o *AliMUONVCalibParam) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(o.Class())
 
 	if err := o.base.UnmarshalROOT(r); err != nil {
 		return err

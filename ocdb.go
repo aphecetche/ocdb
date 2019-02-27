@@ -28,6 +28,7 @@ func (*Entry) Class() string   { return "AliCDBEntry" }
 func (*Entry) RVersion() int16 { return 1 }
 
 func (entry *Entry) Object() root.Object { return entry.obj }
+func (entry *Entry) Id() ID              { return entry.id }
 
 func (entry *Entry) Display(w io.Writer) {
 	fmt.Fprintf(w, `=== Entry ===
@@ -70,7 +71,7 @@ func (o *Entry) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(o.Class())
 
 	if err := o.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -103,6 +104,9 @@ type ID struct {
 func (*ID) Class() string   { return "AliCDBId" }
 func (*ID) RVersion() int16 { return 1 }
 
+func (id ID) Runs() RunRange {
+	return id.runs
+}
 func (id ID) String() string {
 	return fmt.Sprintf("AliCDBId{Path: %v, RunRange: %v, Version: 0x%x, SubVersion: 0x%x, Last: %q}",
 		id.path, id.runs, id.vers, id.subvers, id.last,
@@ -135,7 +139,7 @@ func (id *ID) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(id.Class())
 
 	if err := id.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -201,7 +205,7 @@ func (p *Path) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(p.Class())
 
 	if err := p.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -255,7 +259,7 @@ func (rr *RunRange) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(rr.Class())
 
 	if err := rr.base.UnmarshalROOT(r); err != nil {
 		return err
@@ -317,7 +321,7 @@ func (meta *MetaData) UnmarshalROOT(r *rbytes.RBuffer) error {
 	}
 
 	start := r.Pos()
-	_, pos, bcnt := r.ReadVersion()
+	_, pos, bcnt := r.ReadVersion(meta.Class())
 
 	if err := meta.base.UnmarshalROOT(r); err != nil {
 		return err
