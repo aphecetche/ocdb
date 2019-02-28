@@ -37,7 +37,7 @@ func main() {
 	pflag.Parse()
 	viper.BindPFlags(pflag.CommandLine)
 	http.HandleFunc("/occupancymap", serveOccupancyMap())
-	fmt.Printf("Serving on port %d\n", viper.GetInt("port"))
+	fmt.Printf("Serving on port %d and using CCDB %s\n", viper.GetInt("port"), viper.GetString("ccdb"))
 	if err := http.ListenAndServe(":"+strconv.Itoa(viper.GetInt("port")), nil); err != nil {
 		panic(err)
 	}
