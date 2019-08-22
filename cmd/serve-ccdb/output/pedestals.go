@@ -13,7 +13,6 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
-	"go-hep.org/x/hep/groot"
 )
 
 func dumpRequest(w io.Writer, r *http.Request) {
@@ -37,7 +36,7 @@ func dumpResponse(w io.Writer, r *http.Response) {
 func getLocation(run int) (string, error) {
 	serverURL := viper.GetString("ccdb")
 
-	u, err := url.Parse(serverURL + "QcTaskMCH/QcMuonChambers_Pedestals_DS39" + strconv.Itoa(run))
+	u, err := url.Parse(serverURL + "/QcTaskMCH/QcMuonChambers_Pedestals_DS39/" + strconv.Itoa(run))
 	if err != nil {
 		return "", errors.Wrap(err, "Could not parse 1st url")
 	}
@@ -110,7 +109,9 @@ func JSONPedestals(w io.Writer, run int, deid int) error {
 		return errors.Wrap(err, "Could not get Root file name")
 	}
 
-	froot, err := groot.Open(fname)
+	fmt.Println(fname)
+
+	froot, err := os.Open(fname)
 	if err != nil {
 		return errors.Wrap(err, "Could not get Root file from CCDB")
 	}
